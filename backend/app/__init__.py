@@ -9,9 +9,8 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://localhost:5500", "null"])
 
-    # Tells Flask-Login how to load a user from the ID stored in the session cookie
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))

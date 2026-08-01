@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — AgroVision AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+<div class="auth-layout">
+
+  <!-- LEFT: Field Scan hero -->
+  <div class="auth-hero">
+    <div class="auth-hero-scanline"></div>
+    <svg class="auth-hero-contours" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#7CB342" stroke-opacity="0.5" stroke-width="1.5">
+        <path d="M-50,120 C150,80 350,180 550,120 S900,80 1000,140" />
+        <path d="M-50,200 C150,160 350,260 550,200 S900,160 1000,220" stroke="#E0A94C" stroke-opacity="0.35"/>
+        <path d="M-50,280 C150,240 350,340 550,280 S900,240 1000,300" />
+        <path d="M-50,360 C150,320 350,420 550,360 S900,320 1000,380" stroke="#4FA3C7" stroke-opacity="0.3"/>
+        <path d="M-50,440 C150,400 350,500 550,440 S900,400 1000,460" />
+        <path d="M-50,520 C150,480 350,580 550,520 S900,480 1000,540" stroke="#E0A94C" stroke-opacity="0.35"/>
+        <path d="M-50,600 C150,560 350,660 550,600 S900,560 1000,620" />
+        <path d="M-50,680 C150,640 350,740 550,680 S900,640 1000,700" stroke="#4FA3C7" stroke-opacity="0.3"/>
+        <path d="M-50,760 C150,720 350,820 550,760 S900,720 1000,780" />
+      </g>
+    </svg>
+
+    <div class="auth-brand">
+      <div class="auth-brand-mark">AV</div>
+      <span class="auth-brand-name">AgroVision AI</span>
+    </div>
+
+    <div class="auth-hero-copy fade-in-up">
+      <h1>See your farm the way AI sees it.</h1>
+      <p>Crop health, yield forecasts, disease risk, and market prices — one dashboard, updated in real time.</p>
+    </div>
+
+    <div class="auth-hero-stats">
+      <div>
+        <div class="auth-hero-stat-value">9</div>
+        <div class="auth-hero-stat-label">AI Modules</div>
+      </div>
+      <div>
+        <div class="auth-hero-stat-value">24/7</div>
+        <div class="auth-hero-stat-label">Field Monitoring</div>
+      </div>
+      <div>
+        <div class="auth-hero-stat-value">100%</div>
+        <div class="auth-hero-stat-label">Free to Start</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="auth-form-panel">
+    <div class="card auth-card fade-in-up">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Log in to your AgroVision AI dashboard.</p>
+
+      <div id="statusMsg" class="auth-status"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="email">Email</label>
+          <input class="field-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+          <span class="field-error" id="emailError"></span>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="password">Password</label>
+          <input class="field-input" type="password" id="password" name="password" placeholder="••••••••" required>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="loginBtn">Log in</button>
+      </form>
+
+      <div class="auth-switch">
+        Don't have an account? <a href="register.html">Create one</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+</body>
+</html>

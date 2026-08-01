@@ -1,0 +1,31 @@
+:root {
+  /* Colors — soil & crop-health palette */
+  --color-bg-deep: #14110D;
+  --color-panel: #1E1912;
+  --color-panel-elevated: #262019;
+  --color-border: #33291D;
+
+  --color-green: #7CB342;
+  --color-green-dim: #5C8A30;
+  --color-amber: #E0A94C;
+  --color-sky: #4FA3C7;
+  --color-rust: #C1502E;
+
+  --color-text: #F3EFE3;
+  --color-text-dim: #C9C3B4;
+  --color-text-faint: #8A8272;
+
+  /* Type */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Motion */
+  --transition-base: 220ms cubic-bezier(.4,0,.2,1);
+  --shadow-elevated: 0 24px 70px rgba(0,0,0,0.55);
+}
