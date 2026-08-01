@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — AgroVision AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebarMount"></aside>
+
+  <main class="main-content">
+    <div class="main-topbar fade-in-up">
+      <div>
+        <div class="eyebrow">Account</div>
+        <h1>Your Profile</h1>
+      </div>
+    </div>
+
+    <div class="card fade-in-up" style="max-width:480px; padding:32px;">
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
+        <div class="sidebar-avatar" style="width:56px;height:56px;font-size:1.3rem;" id="profileInitial">-</div>
+        <div>
+          <div style="font-family:var(--font-display); font-size:1.2rem; font-weight:600;" id="profileName">Loading...</div>
+          <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--color-text-faint); text-transform:uppercase;" id="profileRole">-</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Full name</label>
+        <div class="field-input" style="cursor:default;" id="profileNameField">-</div>
+      </div>
+      <div class="field">
+        <label class="field-label">Email</label>
+        <div class="field-input" style="cursor:default;" id="profileEmailField">-</div>
+      </div>
+      <div class="field">
+        <label class="field-label">Member since</label>
+        <div class="field-input" style="cursor:default;" id="profileJoinedField">-</div>
+      </div>
+
+      <button class="btn btn-secondary" id="editProfileBtn">Edit Profile</button>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/shell.js"></script>
+<script>
+  initAppShell("profile").then(user => {
+    document.getElementById("profileInitial").textContent = user.full_name.charAt(0).toUpperCase();
+    document.getElementById("profileName").textContent = user.full_name;
+    document.getElementById("profileRole").textContent = user.role;
+    document.getElementById("profileNameField").textContent = user.full_name;
+    document.getElementById("profileEmailField").textContent = user.email;
+    document.getElementById("profileJoinedField").textContent = "Recently joined";
+  });
+
+  document.getElementById("editProfileBtn").addEventListener("click", () => {
+    alert("Profile editing will be available once the Profile Update backend endpoint is built.");
+  });
+</script>
+</body>
+</html>

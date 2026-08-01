@@ -19,6 +19,10 @@ def create_app():
     from app.routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
 
+    # Register our farm routes
+    from app.routes.farm_routes import farm_bp
+    app.register_blueprint(farm_bp)
+
     @app.route("/")
     def home():
         return {"message": "AgroVision AI backend is running 🌱"}

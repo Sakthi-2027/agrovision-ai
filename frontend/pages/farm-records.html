@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farm Records — AgroVision AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebarMount"></aside>
+
+  <main class="main-content">
+    <div class="page-header-row fade-in-up">
+      <div>
+        <div class="eyebrow">Farm Management</div>
+        <h1>Farm Records</h1>
+      </div>
+      <button class="btn btn-primary btn-icon-inline" id="addFarmBtn">+ Add Farm</button>
+    </div>
+
+    <div class="card empty-state fade-in-up" id="farmsEmptyState">
+      <span class="empty-state-icon">🚜</span>
+      <h2>No farms added yet</h2>
+      <p>Add your first farm to start tracking crop history, fertilizer use, and harvest records in one place.</p>
+    </div>
+
+    <div class="module-grid" id="farmsGrid" style="display:none;"></div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/shell.js"></script>
+<script>
+  initAppShell("farm-records");
+  // Backend farm routes not built yet — button is a placeholder for now.
+  document.getElementById("addFarmBtn").addEventListener("click", () => {
+    alert("Farm creation will be available once the Farm Management backend module is built.");
+  });
+</script>
+</body>
+</html>

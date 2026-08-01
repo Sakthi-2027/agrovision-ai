@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — AgroVision AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebarMount"></aside>
+
+  <main class="main-content">
+    <div class="main-topbar fade-in-up">
+      <div>
+        <div class="eyebrow">Administration</div>
+        <h1>Admin Dashboard</h1>
+      </div>
+    </div>
+
+    <div class="stats-grid fade-in-up">
+      <div class="card stat-card">
+        <div class="stat-label">Total Farmers</div>
+        <div class="stat-empty">Not connected yet</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Datasets Loaded</div>
+        <div class="stat-empty">0 of 5</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Active ML Models</div>
+        <div class="stat-empty">None trained yet</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">System Status</div>
+        <div class="stat-empty">Healthy</div>
+      </div>
+    </div>
+
+    <div class="card empty-state fade-in-up">
+      <span class="empty-state-icon">🛠️</span>
+      <h2>Admin controls are being built</h2>
+      <p>Farmer management, dataset management, and model monitoring will appear here once the Administration backend module is built.</p>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/shell.js"></script>
+<script>
+  initAppShell("admin").then(user => {
+    if (user.role !== "admin") {
+      alert("This page is restricted to admin accounts.");
+      window.location.href = "dashboard.html";
+    }
+  });
+</script>
+</body>
+</html>

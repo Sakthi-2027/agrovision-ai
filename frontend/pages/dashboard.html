@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — AgroVision AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/animations.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body
+<div class="app-layout">
+  <aside class="sidebar" id="sidebarMount"></aside>
+
+  <main class="main-content">
+    <div class="main-topbar fade-in-up">
+      <div>
+        <div class="eyebrow">Farm Overview</div>
+        <h1 id="welcomeHeading">Welcome back</h1>
+      </div>
+    </div>
+
+    <div class="stats-grid fade-in-up">
+      <div class="card stat-card">
+        <div class="stat-label">Registered Farms</div>
+        <div class="stat-empty">No farms added yet</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Active Crops</div>
+        <div class="stat-empty">No crop records yet</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Pending Alerts</div>
+        <div class="stat-empty">You're all caught up</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-label">Recommendations</div>
+        <div class="stat-empty">None generated yet</div>
+      </div>
+    </div>
+
+    <div class="section-heading fade-in-up">
+      <h2>AI Modules</h2>
+      <span>Tap a module to get started</span>
+    </div>
+
+    <div class="module-grid fade-in-up">
+      <div class="card module-card" onclick="window.location.href='crop-recommendation.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">🌾</span>
+        <h3>Crop Recommendation</h3>
+        <p>Get the best crop for your soil and season.</p>
+      </div>
+      <div class="card module-card" onclick="window.location.href='fertilizer-recommendation.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">🧪</span>
+        <h3>Fertilizer Recommendation</h3>
+        <p>Right fertilizer, right amount, right time.</p>
+      </div>
+      <div class="card module-card" onclick="window.location.href='disease-detection.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">🔬</span>
+        <h3>Disease Detection</h3>
+        <p>Upload a photo, get an instant diagnosis.</p>
+      </div>
+      <div class="card module-card" onclick="window.location.href='weather.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">☁️</span>
+        <h3>Weather Forecast</h3>
+        <p>Plan around what's coming this week.</p>
+      </div>
+      <div class="card module-card" onclick="window.location.href='market-prices.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">📈</span>
+        <h3>Market Prices</h3>
+        <p>Know what your harvest is worth today.</p>
+      </div>
+      <div class="card module-card" onclick="window.location.href='assistant.html'">
+        <span class="module-badge">Coming soon</span>
+        <span class="module-icon">💬</span>
+        <h3>AI Farming Assistant</h3>
+        <p>Ask anything about your farm, anytime.</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/shell.js"></script>
+<script>
+  initAppShell("dashboard").then(user => {
+    document.getElementById("welcomeHeading").textContent = `Welcome back, ${user.full_name.split(" ")[0]}`;
+  });
+</script>
+</body>
+</html>
