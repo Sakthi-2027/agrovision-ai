@@ -221,8 +221,7 @@ def create_disease_history(farm_id):
     db.session.add(record)
     db.session.commit()
 
-    # Trigger a notification for high-severity disease reports
-    if data.get("severity") == "High":
+    if data.get("severity", "").strip().lower() == "high":
         create_notification(
             user_id=current_user.id,
             title=f"High severity disease detected: {record.disease_name}",
