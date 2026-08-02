@@ -52,6 +52,8 @@ function renderFarmers(farmers) {
         <th>Email</th>
         <th>Farms</th>
         <th>Joined</th>
+        <th>Status</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -61,10 +63,35 @@ function renderFarmers(farmers) {
           <td>${f.email}</td>
           <td>${f.farm_count}</td>
           <td>${new Date(f.joined).toLocaleDateString()}</td>
+          <td>${f.is_active ? '<span style="color:var(--color-green);">Active</span>' : '<span style="color:var(--color-rust);">Deactivated</span>'}</td>
+          <td style="display:flex; gap:8px;">
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:0.78rem;" onclick="handleDeactivate(${f.id}, '${f.full_name}')">${f.is_active ? 'Deactivate' : 'Reactivate'}</button>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:0.78rem;" onclick="handlePromote(${f.id}, '${f.full_name}')">Promote</button>
+          </td>
         </tr>
       `).join("")}
     </tbody>
   `;
+}
+
+async function handleDeactivate(id, name) {
+  if (!confirm(`Toggle active status for ${name}?`)) return;
+  try {
+    await AdminAPI.deactivateFarmer(id);
+    loadAdminDashboard();
+  } catch (err) {
+    alert("Failed: " + err.message);
+  }
+}
+
+async function handlePromote(id, name) {
+  if (!confirm(`Promote ${name} to admin? This cannot be undone from the UI.`)) return;
+  try {
+    await AdminAPI.promoteFarmer(id);
+    loadAdminDashboard();
+  } catch (err) {
+    alert("Failed: " + err.message);
+  }
 }
 
 function renderDatasets(datasets) {

@@ -40,6 +40,9 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({"error": "Invalid email or password"}), 401
 
+    if not user.is_active:
+        return jsonify({"error": "This account has been deactivated. Contact support."}), 403
+
     login_user(user)
     return jsonify({
         "message": "Login successful",
@@ -63,6 +66,8 @@ def me():
         "email": current_user.email,
         "role": current_user.role
     }), 200
+
+
 @auth_bp.route("/profile", methods=["PUT"])
 @login_required
 def update_profile():

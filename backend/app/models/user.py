@@ -12,13 +12,14 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(20), default="farmer")  # "farmer" or "admin"
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_active = db.Column(db.Boolean, default=True)
 
     def set_password(self, plain_password):
-        """Hashes and stores the password — never save plain text."""
+        
         self.password_hash = generate_password_hash(plain_password)
 
     def check_password(self, plain_password):
-        """Compares a login attempt against the stored hash."""
+        
         return check_password_hash(self.password_hash, plain_password)
 
     def __repr__(self):

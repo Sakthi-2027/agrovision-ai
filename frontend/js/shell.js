@@ -11,7 +11,6 @@ const NAV_ITEMS = [
   { section: "AI Modules", key: "pest-prediction", label: "Pest Prediction", icon: "✦", href: "pest-prediction.html" },
   { section: "AI Modules", key: "weather", label: "Weather Forecast", icon: "✦", href: "weather.html" },
   { section: "AI Modules", key: "market-prices", label: "Market Prices", icon: "✦", href: "market-prices.html" },
-  { section: "AI Modules", key: "assistant", label: "AI Assistant", icon: "✦", href: "assistant.html" },
 
   { section: "Account", key: "profile", label: "Profile", icon: "◐", href: "profile.html" },
   { section: "Account", key: "notifications", label: "Notifications", icon: "◔", href: "notifications.html", badge: true },

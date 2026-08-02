@@ -6,6 +6,8 @@ from app.models.farm import Farm
 from app.models.crop_history import CropHistory
 from app.models.fertilizer_history import FertilizerHistory
 from app.models.disease_history import DiseaseHistory
+from flask_login import current_user
+from app.extensions import db
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
 
@@ -23,7 +25,8 @@ def list_farmers():
             "full_name": farmer.full_name,
             "email": farmer.email,
             "joined": farmer.created_at.isoformat(),
-            "farm_count": farm_count
+            "farm_count": farm_count,
+            "is_active": farmer.is_active
         })
 
     return jsonify(result), 200
@@ -57,3 +60,33 @@ def list_datasets():
     ]
 
     return jsonify({"datasets": files}), 200
+
+
+@admin_bp.route("/farmers/<int:farmer_id>/deactivate", methods=["PATCH"])
+@admin_required
+def deactivate_farmer(farmer_id):
+    if farmer_id == current_user.id:
+        return jsonify({"error": "You cannot deactivate your own account"}), 400
+
+    farmer = User.query.filter_by(id=farmer_id, role="farmer").first()
+    if not farmer:
+        return jsonify({"error": "Farmer not found"}), 404
+
+    farmer.is_active = not farmer.is_active  # toggle: deactivate <-> reactivate
+    db.session.commit()
+
+    status = "deactivated" if not farmer.is_active else "reactivated"
+    return jsonify({"message": f"{farmer.full_name} has been {status}", "is_active": farmer.is_active}), 200
+
+
+@admin_bp.route("/farmers/<int:farmer_id>/promote", methods=["PATCH"])
+@admin_required
+def promote_farmer(farmer_id):
+    farmer = User.query.filter_by(id=farmer_id, role="farmer").first()
+    if not farmer:
+        return jsonify({"error": "Farmer not found"}), 404
+
+    farmer.role = "admin"
+    db.session.commit()
+
+    return jsonify({"message": f"{farmer.full_name} has been promoted to admin"}), 200

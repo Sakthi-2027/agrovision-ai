@@ -26,17 +26,18 @@ const AuthAPI = {
 
   logout: () => apiRequest("/auth/logout", "POST"),
 
-  me: () => apiRequest("/auth/me", "GET")
+  me: () => apiRequest("/auth/me", "GET"),
+
+  updateProfile: (payload) => apiRequest("/auth/profile", "PUT", payload)
 };
+
 const FarmAPI = {
   list: () => apiRequest("/farms", "GET"),
   create: (farm) => apiRequest("/farms", "POST", farm),
   update: (id, farm) => apiRequest(`/farms/${id}`, "PUT", farm),
   remove: (id) => apiRequest(`/farms/${id}`, "DELETE")
 };
-const WeatherAPI = {
-  get: (location) => apiRequest(`/weather?location=${encodeURIComponent(location)}`, "GET")
-};
+
 const HistoryAPI = {
   cropList: (farmId) => apiRequest(`/farms/${farmId}/crop-history`, "GET"),
   cropCreate: (farmId, data) => apiRequest(`/farms/${farmId}/crop-history`, "POST", data),
@@ -50,19 +51,11 @@ const HistoryAPI = {
   diseaseCreate: (farmId, data) => apiRequest(`/farms/${farmId}/disease-history`, "POST", data),
   diseaseDelete: (farmId, id) => apiRequest(`/farms/${farmId}/disease-history/${id}`, "DELETE")
 };
-const NotificationAPI = {
-  list: () => apiRequest("/notifications", "GET"),
-  markRead: (id) => apiRequest(`/notifications/${id}/read`, "PATCH"),
-  remove: (id) => apiRequest(`/notifications/${id}`, "DELETE")
+
+const WeatherAPI = {
+  get: (location) => apiRequest(`/weather?location=${encodeURIComponent(location)}`, "GET")
 };
-const AnalyticsAPI = {
-  get: () => apiRequest("/analytics", "GET")
-};
-const AdminAPI = {
-  stats: () => apiRequest("/admin/stats", "GET"),
-  farmers: () => apiRequest("/admin/farmers", "GET"),
-  datasets: () => apiRequest("/admin/datasets", "GET")
-};
+
 const MarketAPI = {
   get: (state, commodity) => {
     const params = new URLSearchParams();
@@ -71,4 +64,21 @@ const MarketAPI = {
     return apiRequest(`/market-prices?${params.toString()}`, "GET");
   }
 };
-AuthAPI.updateProfile = (payload) => apiRequest("/auth/profile", "PUT", payload);
+
+const NotificationAPI = {
+  list: () => apiRequest("/notifications", "GET"),
+  markRead: (id) => apiRequest(`/notifications/${id}/read`, "PATCH"),
+  remove: (id) => apiRequest(`/notifications/${id}`, "DELETE")
+};
+
+const AnalyticsAPI = {
+  get: () => apiRequest("/analytics", "GET")
+};
+
+const AdminAPI = {
+  stats: () => apiRequest("/admin/stats", "GET"),
+  farmers: () => apiRequest("/admin/farmers", "GET"),
+  datasets: () => apiRequest("/admin/datasets", "GET"),
+  deactivateFarmer: (id) => apiRequest(`/admin/farmers/${id}/deactivate`, "PATCH"),
+  promoteFarmer: (id) => apiRequest(`/admin/farmers/${id}/promote`, "PATCH")
+};
