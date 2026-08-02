@@ -1,3 +1,4 @@
+import click
 from flask import Flask
 from config.config import Config
 from app.extensions import db, login_manager, cors
@@ -37,6 +38,8 @@ def create_app():
     app.register_blueprint(notification_bp)
     from app.routes.analytics_routes import analytics_bp
     app.register_blueprint(analytics_bp)
+    from app.routes.admin_routes import admin_bp
+    app.register_blueprint(admin_bp)
 
     @app.route("/")
     def home():
@@ -46,5 +49,16 @@ def create_app():
     def create_db():
         db.create_all()
         print("✅ Database tables created successfully.")
+
+    @app.cli.command("make-admin")
+    @click.argument("email")
+    def make_admin(email):
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            print(f"❌ No user found with email: {email}")
+            return
+        user.role = "admin"
+        db.session.commit()
+        print(f"✅ {user.full_name} ({email}) is now an admin.")
 
     return app
