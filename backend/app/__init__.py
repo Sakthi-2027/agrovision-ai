@@ -2,6 +2,11 @@ from flask import Flask
 from config.config import Config
 from app.extensions import db, login_manager, cors
 from app.models.user import User  # noqa: F401
+from app.models.user import User  # noqa: F401
+from app.models.farm import Farm  # noqa: F401
+from app.models.crop_history import CropHistory  # noqa: F401
+from app.models.fertilizer_history import FertilizerHistory  # noqa: F401
+from app.models.disease_history import DiseaseHistory  # noqa: F401
 
 def create_app():
     app = Flask(__name__)
@@ -15,13 +20,17 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # Register our auth routes
     from app.routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
 
-    # Register our farm routes
     from app.routes.farm_routes import farm_bp
     app.register_blueprint(farm_bp)
+
+    from app.routes.weather_routes import weather_bp
+    app.register_blueprint(weather_bp)
+
+    from app.routes.market_routes import market_bp
+    app.register_blueprint(market_bp)
 
     @app.route("/")
     def home():

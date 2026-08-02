@@ -2,6 +2,11 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.extensions import db
 from app.models.farm import Farm
+from datetime import datetime
+from app.models.crop_history import CropHistory
+from app.models.fertilizer_history import FertilizerHistory
+from app.models.disease_history import DiseaseHistory
+
 
 farm_bp = Blueprint("farms", __name__, url_prefix="/api/farms")
 
@@ -62,3 +67,168 @@ def delete_farm(farm_id):
     db.session.delete(farm)
     db.session.commit()
     return jsonify({"message": "Farm deleted"}), 200
+
+def get_owned_farm_or_none(farm_id):
+   
+    return Farm.query.filter_by(id=farm_id, user_id=current_user.id).first()
+
+
+def parse_date(date_str):
+    return datetime.strptime(date_str, "%Y-%m-%d").date() if date_str else None
+
+
+# ---------------- CROP HISTORY ----------------
+
+@farm_bp.route("/<int:farm_id>/crop-history", methods=["GET"])
+@login_required
+def list_crop_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    records = CropHistory.query.filter_by(farm_id=farm_id).order_by(CropHistory.created_at.desc()).all()
+    return jsonify([r.to_dict() for r in records]), 200
+
+
+@farm_bp.route("/<int:farm_id>/crop-history", methods=["POST"])
+@login_required
+def create_crop_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    data = request.get_json()
+    if not data.get("crop_name"):
+        return jsonify({"error": "crop_name is required"}), 400
+
+    record = CropHistory(
+        farm_id=farm_id,
+        crop_name=data.get("crop_name"),
+        season=data.get("season"),
+        planting_date=parse_date(data.get("planting_date")),
+        harvest_date=parse_date(data.get("harvest_date")),
+        notes=data.get("notes")
+    )
+    db.session.add(record)
+    db.session.commit()
+    return jsonify(record.to_dict()), 201
+
+
+@farm_bp.route("/<int:farm_id>/crop-history/<int:record_id>", methods=["DELETE"])
+@login_required
+def delete_crop_history(farm_id, record_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    record = CropHistory.query.filter_by(id=record_id, farm_id=farm_id).first()
+    if not record:
+        return jsonify({"error": "Record not found"}), 404
+
+    db.session.delete(record)
+    db.session.commit()
+    return jsonify({"message": "Crop history record deleted"}), 200
+# ---------------- FERTILIZER HISTORY ----------------
+
+@farm_bp.route("/<int:farm_id>/fertilizer-history", methods=["GET"])
+@login_required
+def list_fertilizer_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    records = FertilizerHistory.query.filter_by(farm_id=farm_id).order_by(FertilizerHistory.created_at.desc()).all()
+    return jsonify([r.to_dict() for r in records]), 200
+
+
+@farm_bp.route("/<int:farm_id>/fertilizer-history", methods=["POST"])
+@login_required
+def create_fertilizer_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    data = request.get_json()
+    if not data.get("fertilizer_name"):
+        return jsonify({"error": "fertilizer_name is required"}), 400
+
+    record = FertilizerHistory(
+        farm_id=farm_id,
+        fertilizer_name=data.get("fertilizer_name"),
+        quantity=data.get("quantity"),
+        unit=data.get("unit"),
+        application_date=parse_date(data.get("application_date")),
+        notes=data.get("notes")
+    )
+    db.session.add(record)
+    db.session.commit()
+    return jsonify(record.to_dict()), 201
+
+
+@farm_bp.route("/<int:farm_id>/fertilizer-history/<int:record_id>", methods=["DELETE"])
+@login_required
+def delete_fertilizer_history(farm_id, record_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    record = FertilizerHistory.query.filter_by(id=record_id, farm_id=farm_id).first()
+    if not record:
+        return jsonify({"error": "Record not found"}), 404
+
+    db.session.delete(record)
+    db.session.commit()
+    return jsonify({"message": "Fertilizer history record deleted"}), 200
+
+
+# ---------------- DISEASE HISTORY ----------------
+
+@farm_bp.route("/<int:farm_id>/disease-history", methods=["GET"])
+@login_required
+def list_disease_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    records = DiseaseHistory.query.filter_by(farm_id=farm_id).order_by(DiseaseHistory.created_at.desc()).all()
+    return jsonify([r.to_dict() for r in records]), 200
+
+
+@farm_bp.route("/<int:farm_id>/disease-history", methods=["POST"])
+@login_required
+def create_disease_history(farm_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    data = request.get_json()
+    if not data.get("disease_name"):
+        return jsonify({"error": "disease_name is required"}), 400
+
+    record = DiseaseHistory(
+        farm_id=farm_id,
+        disease_name=data.get("disease_name"),
+        crop_affected=data.get("crop_affected"),
+        severity=data.get("severity"),
+        detected_date=parse_date(data.get("detected_date")),
+        notes=data.get("notes")
+    )
+    db.session.add(record)
+    db.session.commit()
+    return jsonify(record.to_dict()), 201
+
+
+@farm_bp.route("/<int:farm_id>/disease-history/<int:record_id>", methods=["DELETE"])
+@login_required
+def delete_disease_history(farm_id, record_id):
+    farm = get_owned_farm_or_none(farm_id)
+    if not farm:
+        return jsonify({"error": "Farm not found"}), 404
+
+    record = DiseaseHistory.query.filter_by(id=record_id, farm_id=farm_id).first()
+    if not record:
+        return jsonify({"error": "Record not found"}), 404
+
+    db.session.delete(record)
+    db.session.commit()
+    return jsonify({"message": "Disease history record deleted"}), 200

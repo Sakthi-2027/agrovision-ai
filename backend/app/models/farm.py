@@ -13,9 +13,11 @@ class Farm(db.Model):
     soil_type = db.Column(db.String(50))
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    crop_history = db.relationship("CropHistory", backref="farm", lazy=True, cascade="all, delete-orphan")
+    fertilizer_history = db.relationship("FertilizerHistory", backref="farm", lazy=True, cascade="all, delete-orphan")
+    disease_history = db.relationship("DiseaseHistory", backref="farm", lazy=True, cascade="all, delete-orphan")
 
     def to_dict(self):
-        """Converts this model to a JSON-friendly dictionary."""
         return {
             "id": self.id,
             "farm_name": self.farm_name,
