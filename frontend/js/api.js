@@ -63,3 +63,11 @@ const AdminAPI = {
   farmers: () => apiRequest("/admin/farmers", "GET"),
   datasets: () => apiRequest("/admin/datasets", "GET")
 };
+const MarketAPI = {
+  get: (state, commodity) => {
+    const params = new URLSearchParams();
+    if (state) params.append("state", state);
+    if (commodity) params.append("commodity", commodity);
+    return apiRequest(`/market-prices?${params.toString()}`, "GET");
+  }
+};

@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -21,21 +20,36 @@
     <div class="main-topbar fade-in-up">
       <div>
         <div class="eyebrow">AI Module</div>
-        <h1>Crop Recommendation</h1>
+        <h1>Market Prices</h1>
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
+    <div class="card fade-in-up" style="padding:24px; margin-bottom:20px;">
+      <form id="marketForm" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
+        <div class="field" style="flex:1; min-width:160px; margin-bottom:0;">
+          <label class="field-label">State</label>
+          <input class="field-input" type="text" id="stateInput" placeholder="e.g. Tamil Nadu">
+        </div>
+        <div class="field" style="flex:1; min-width:160px; margin-bottom:0;">
+          <label class="field-label">Commodity</label>
+          <input class="field-input" type="text" id="commodityInput" placeholder="e.g. Onion">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:auto; padding:13px 28px;">Search</button>
+      </form>
     </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span style="font-size:0.85rem; color:var(--color-text-faint);" id="resultCount"></span>
+      <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--color-text-faint);" id="lastSynced"></span>
+    </div>
+
+    <div class="card fade-in-up" style="padding:0; overflow-x:auto;" id="marketResults"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("crop-recommendation");</script>
+<script src="../js/market.js"></script>
+<script>initAppShell("market-prices").then(() => searchMarketPrices());</script>
 </body>
 </html>

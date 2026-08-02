@@ -9,7 +9,7 @@ from app.models.crop_history import CropHistory
 from app.models.fertilizer_history import FertilizerHistory 
 from app.models.disease_history import DiseaseHistory 
 from app.models.notification import Notification  
-
+from app.models.market_price import MarketPrice  
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -60,5 +60,11 @@ def create_app():
         user.role = "admin"
         db.session.commit()
         print(f"✅ {user.full_name} ({email}) is now an admin.")
+    @app.cli.command("sync-market-prices")
+    def sync_market_prices_command():
+        from app.services.market_service import sync_market_prices
+        success, message, count = sync_market_prices()
+        icon = "✅" if success else "⚠️"
+        print(f"{icon} {message}")
 
     return app
