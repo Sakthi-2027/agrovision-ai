@@ -154,3 +154,203 @@
 .btn-secondary:hover { border-color: var(--color-green-dim); }
 
 .btn-icon-inline { width: auto; padding: 10px 18px; display: inline-flex; }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px;
+  margin: 20px;
+}
+
+.modal-box h2 { margin-bottom: 24px; }
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+.modal-actions .btn { width: auto; flex: 1; }
+
+.farm-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+.farm-card-actions button {
+  width: auto;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+}
+
+.farm-card-meta {
+  display: flex;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-faint);
+  margin-top: 10px;
+}
+.weather-current {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.weather-current-temp {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--color-green);
+}
+
+.weather-current-location {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.weather-current-meta {
+  display: flex;
+  gap: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.weather-daily-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.weather-day-card {
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.weather-day-card .day-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-bottom: 10px;
+}
+
+.weather-day-card .day-temps {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.weather-day-card .day-temps .max { color: var(--color-text); }
+.weather-day-card .day-temps .min { color: var(--color-text-faint); }
+
+.weather-day-card .day-rain {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-sky);
+}
+.detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.detail-box {
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.detail-close {
+  background: none;
+  border: none;
+  color: var(--color-text-faint);
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: auto;
+  padding: 4px 8px;
+}
+.detail-close:hover { color: var(--color-text); }
+
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-base), border-color var(--transition-base);
+}
+.tab-btn.active { color: var(--color-green); border-bottom-color: var(--color-green); }
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.88rem;
+}
+.history-row:last-child { border-bottom: none; }
+
+.history-row-main { font-weight: 600; }
+.history-row-meta { color: var(--color-text-faint); font-size: 0.78rem; font-family: var(--font-mono); }
+
+.history-row-delete {
+  background: none;
+  border: none;
+  color: var(--color-text-faint);
+  cursor: pointer;
+  width: auto;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+.history-row-delete:hover { color: var(--color-rust); }
+
+.quick-add-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.quick-add-form input {
+  flex: 1;
+  min-width: 100px;
+}
+.quick-add-form .btn { width: auto; padding: 10px 18px; flex: none; }

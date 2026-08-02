@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -21,21 +20,27 @@
     <div class="main-topbar fade-in-up">
       <div>
         <div class="eyebrow">AI Module</div>
-        <h1>Crop Recommendation</h1>
+        <h1>Weather Forecast</h1>
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
+    <div class="card fade-in-up" style="padding:24px; margin-bottom:24px;">
+      <form id="weatherForm" style="display:flex; gap:12px; align-items:flex-end;">
+        <div class="field" style="flex:1; margin-bottom:0;">
+          <label class="field-label">Location</label>
+          <input class="field-input" type="text" id="locationInput" placeholder="e.g. Tindivanam" value="Tindivanam" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:auto; padding:13px 28px;" id="weatherBtn">Get Forecast</button>
+      </form>
     </div>
+
+    <div id="weatherResults"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("crop-recommendation");</script>
+<script src="../js/weather.js"></script>
+<script>initAppShell("weather");</script>
 </body>
 </html>

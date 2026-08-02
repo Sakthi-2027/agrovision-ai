@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -26,24 +25,71 @@
       <button class="btn btn-primary btn-icon-inline" id="addFarmBtn">+ Add Farm</button>
     </div>
 
-    <div class="card empty-state fade-in-up" id="farmsEmptyState">
+    <div class="card empty-state fade-in-up" id="farmsEmptyState" style="display:none;">
       <span class="empty-state-icon">🚜</span>
       <h2>No farms added yet</h2>
       <p>Add your first farm to start tracking crop history, fertilizer use, and harvest records in one place.</p>
     </div>
 
-    <div class="module-grid" id="farmsGrid" style="display:none;"></div>
+    <div class="module-grid fade-in-up" id="farmsGrid"></div>
   </main>
+</div>
+
+<!-- Add/Edit Farm Modal -->
+<div class="modal-overlay" id="farmModal" style="display:none;">
+  <div class="card modal-box">
+    <h2 id="modalTitle">Add Farm</h2>
+    <div class="auth-status" id="modalStatus"></div>
+
+    <form id="farmForm">
+      <input type="hidden" id="farmId">
+      <div class="field">
+        <label class="field-label">Farm name</label>
+        <input class="field-input" type="text" id="farmName" placeholder="e.g. Green Valley Farm" required>
+      </div>
+      <div class="field">
+        <label class="field-label">Location</label>
+        <input class="field-input" type="text" id="farmLocation" placeholder="e.g. Tamil Nadu">
+      </div>
+      <div class="field">
+        <label class="field-label">Size (acres)</label>
+        <input class="field-input" type="number" step="0.1" id="farmSize" placeholder="e.g. 5.5">
+      </div>
+      <div class="field">
+        <label class="field-label">Soil type</label>
+        <input class="field-input" type="text" id="farmSoil" placeholder="e.g. Loamy">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveFarmBtn">Save Farm</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>
-  initAppShell("farm-records");
-  // Backend farm routes not built yet — button is a placeholder for now.
-  document.getElementById("addFarmBtn").addEventListener("click", () => {
-    alert("Farm creation will be available once the Farm Management backend module is built.");
-  });
-</script>
+<script src="../js/farms.js"></script>
+<script>initAppShell("farm-records").then(loadFarms);</script>
+<!-- Farm Detail Modal (History Tabs) -->
+<div class="detail-overlay" id="detailModal" style="display:none;">
+  <div class="card detail-box">
+    <div class="detail-header">
+      <div>
+        <div class="eyebrow" style="font-size:0.72rem; color:var(--color-green); font-family:var(--font-mono); text-transform:uppercase; margin-bottom:4px;">Farm History</div>
+        <h2 id="detailFarmName">Farm</h2>
+      </div>
+      <button class="detail-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="crop" onclick="switchTab('crop')">Crop</button>
+      <button class="tab-btn" data-tab="fertilizer" onclick="switchTab('fertilizer')">Fertilizer</button>
+      <button class="tab-btn" data-tab="disease" onclick="switchTab('disease')">Disease</button>
+    </div>
+
+    <div id="tabContent"></div>
+  </div>
+</div>
 </body>
 </html>

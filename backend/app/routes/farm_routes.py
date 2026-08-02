@@ -1,15 +1,26 @@
+from datetime import datetime
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.extensions import db
 from app.models.farm import Farm
-from datetime import datetime
 from app.models.crop_history import CropHistory
 from app.models.fertilizer_history import FertilizerHistory
 from app.models.disease_history import DiseaseHistory
-
+from app.services.notification_service import create_notification
 
 farm_bp = Blueprint("farms", __name__, url_prefix="/api/farms")
 
+
+def get_owned_farm_or_none(farm_id):
+    """Shared helper: returns the farm only if it belongs to the current user."""
+    return Farm.query.filter_by(id=farm_id, user_id=current_user.id).first()
+
+
+def parse_date(date_str):
+    return datetime.strptime(date_str, "%Y-%m-%d").date() if date_str else None
+
+
+# ---------------- FARMS ----------------
 
 @farm_bp.route("", methods=["GET"])
 @login_required
@@ -43,7 +54,7 @@ def create_farm():
 @farm_bp.route("/<int:farm_id>", methods=["PUT"])
 @login_required
 def update_farm(farm_id):
-    farm = Farm.query.filter_by(id=farm_id, user_id=current_user.id).first()
+    farm = get_owned_farm_or_none(farm_id)
     if not farm:
         return jsonify({"error": "Farm not found"}), 404
 
@@ -60,21 +71,13 @@ def update_farm(farm_id):
 @farm_bp.route("/<int:farm_id>", methods=["DELETE"])
 @login_required
 def delete_farm(farm_id):
-    farm = Farm.query.filter_by(id=farm_id, user_id=current_user.id).first()
+    farm = get_owned_farm_or_none(farm_id)
     if not farm:
         return jsonify({"error": "Farm not found"}), 404
 
     db.session.delete(farm)
     db.session.commit()
     return jsonify({"message": "Farm deleted"}), 200
-
-def get_owned_farm_or_none(farm_id):
-   
-    return Farm.query.filter_by(id=farm_id, user_id=current_user.id).first()
-
-
-def parse_date(date_str):
-    return datetime.strptime(date_str, "%Y-%m-%d").date() if date_str else None
 
 
 # ---------------- CROP HISTORY ----------------
@@ -128,6 +131,8 @@ def delete_crop_history(farm_id, record_id):
     db.session.delete(record)
     db.session.commit()
     return jsonify({"message": "Crop history record deleted"}), 200
+
+
 # ---------------- FERTILIZER HISTORY ----------------
 
 @farm_bp.route("/<int:farm_id>/fertilizer-history", methods=["GET"])
@@ -215,6 +220,17 @@ def create_disease_history(farm_id):
     )
     db.session.add(record)
     db.session.commit()
+
+    # Trigger a notification for high-severity disease reports
+    if data.get("severity") == "High":
+        create_notification(
+            user_id=current_user.id,
+            title=f"High severity disease detected: {record.disease_name}",
+            message=f"{record.disease_name} was reported on {farm.farm_name}"
+                    + (f" affecting {record.crop_affected}" if record.crop_affected else "") + ".",
+            category="disease"
+        )
+
     return jsonify(record.to_dict()), 201
 
 

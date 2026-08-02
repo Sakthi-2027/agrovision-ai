@@ -1,12 +1,13 @@
 from flask import Flask
 from config.config import Config
 from app.extensions import db, login_manager, cors
-from app.models.user import User  # noqa: F401
-from app.models.user import User  # noqa: F401
-from app.models.farm import Farm  # noqa: F401
-from app.models.crop_history import CropHistory  # noqa: F401
-from app.models.fertilizer_history import FertilizerHistory  # noqa: F401
-from app.models.disease_history import DiseaseHistory  # noqa: F401
+from app.models.user import User 
+from app.models.user import User  
+from app.models.farm import Farm 
+from app.models.crop_history import CropHistory  
+from app.models.fertilizer_history import FertilizerHistory 
+from app.models.disease_history import DiseaseHistory 
+from app.models.notification import Notification  
 
 def create_app():
     app = Flask(__name__)
@@ -31,6 +32,9 @@ def create_app():
 
     from app.routes.market_routes import market_bp
     app.register_blueprint(market_bp)
+
+    from app.routes.notification_routes import notification_bp
+    app.register_blueprint(notification_bp)
 
     @app.route("/")
     def home():

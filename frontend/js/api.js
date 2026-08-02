@@ -28,3 +28,25 @@ const AuthAPI = {
 
   me: () => apiRequest("/auth/me", "GET")
 };
+const FarmAPI = {
+  list: () => apiRequest("/farms", "GET"),
+  create: (farm) => apiRequest("/farms", "POST", farm),
+  update: (id, farm) => apiRequest(`/farms/${id}`, "PUT", farm),
+  remove: (id) => apiRequest(`/farms/${id}`, "DELETE")
+};
+const WeatherAPI = {
+  get: (location) => apiRequest(`/weather?location=${encodeURIComponent(location)}`, "GET")
+};
+const HistoryAPI = {
+  cropList: (farmId) => apiRequest(`/farms/${farmId}/crop-history`, "GET"),
+  cropCreate: (farmId, data) => apiRequest(`/farms/${farmId}/crop-history`, "POST", data),
+  cropDelete: (farmId, id) => apiRequest(`/farms/${farmId}/crop-history/${id}`, "DELETE"),
+
+  fertilizerList: (farmId) => apiRequest(`/farms/${farmId}/fertilizer-history`, "GET"),
+  fertilizerCreate: (farmId, data) => apiRequest(`/farms/${farmId}/fertilizer-history`, "POST", data),
+  fertilizerDelete: (farmId, id) => apiRequest(`/farms/${farmId}/fertilizer-history/${id}`, "DELETE"),
+
+  diseaseList: (farmId) => apiRequest(`/farms/${farmId}/disease-history`, "GET"),
+  diseaseCreate: (farmId, data) => apiRequest(`/farms/${farmId}/disease-history`, "POST", data),
+  diseaseDelete: (farmId, id) => apiRequest(`/farms/${farmId}/disease-history/${id}`, "DELETE")
+};
