@@ -63,3 +63,32 @@ def me():
         "email": current_user.email,
         "role": current_user.role
     }), 200
+@auth_bp.route("/profile", methods=["PUT"])
+@login_required
+def update_profile():
+    data = request.get_json()
+
+    new_name = data.get("full_name", "").strip()
+    if new_name:
+        current_user.full_name = new_name
+
+    new_password = data.get("new_password", "").strip()
+    if new_password:
+        current_password = data.get("current_password", "")
+        if not current_user.check_password(current_password):
+            return jsonify({"error": "Current password is incorrect"}), 401
+        if len(new_password) < 8:
+            return jsonify({"error": "New password must be at least 8 characters"}), 400
+        current_user.set_password(new_password)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Profile updated successfully",
+        "user": {
+            "id": current_user.id,
+            "full_name": current_user.full_name,
+            "email": current_user.email,
+            "role": current_user.role
+        }
+    }), 200

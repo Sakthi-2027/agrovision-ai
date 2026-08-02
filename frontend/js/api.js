@@ -71,3 +71,4 @@ const MarketAPI = {
     return apiRequest(`/market-prices?${params.toString()}`, "GET");
   }
 };
+AuthAPI.updateProfile = (payload) => apiRequest("/auth/profile", "PUT", payload);

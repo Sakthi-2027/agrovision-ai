@@ -34,20 +34,31 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="field-label">Full name</label>
-        <div class="field-input" style="cursor:default;" id="profileNameField">-</div>
-      </div>
-      <div class="field">
-        <label class="field-label">Email</label>
-        <div class="field-input" style="cursor:default;" id="profileEmailField">-</div>
-      </div>
-      <div class="field">
-        <label class="field-label">Member since</label>
-        <div class="field-input" style="cursor:default;" id="profileJoinedField">-</div>
-      </div>
+      <div class="auth-status" id="profileStatus"></div>
 
-      <button class="btn btn-secondary" id="editProfileBtn">Edit Profile</button>
+      <form id="profileForm">
+        <div class="field">
+          <label class="field-label">Full name</label>
+          <input class="field-input" type="text" id="profileNameInput" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Email</label>
+          <input class="field-input" type="email" id="profileEmailInput" disabled style="opacity:0.6; cursor:not-allowed;">
+        </div>
+
+        <div class="divider">Change password (optional)</div>
+
+        <div class="field">
+          <label class="field-label">Current password</label>
+          <input class="field-input" type="password" id="currentPasswordInput" placeholder="Required only if changing password">
+        </div>
+        <div class="field">
+          <label class="field-label">New password</label>
+          <input class="field-input" type="password" id="newPasswordInput" placeholder="Leave blank to keep current password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+      </form>
     </div>
   </main>
 </div>
@@ -55,17 +66,51 @@
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
 <script>
+  let currentProfileUser = null;
+
   initAppShell("profile").then(user => {
+    currentProfileUser = user;
     document.getElementById("profileInitial").textContent = user.full_name.charAt(0).toUpperCase();
     document.getElementById("profileName").textContent = user.full_name;
     document.getElementById("profileRole").textContent = user.role;
-    document.getElementById("profileNameField").textContent = user.full_name;
-    document.getElementById("profileEmailField").textContent = user.email;
-    document.getElementById("profileJoinedField").textContent = "Recently joined";
+    document.getElementById("profileNameInput").value = user.full_name;
+    document.getElementById("profileEmailInput").value = user.email;
   });
 
-  document.getElementById("editProfileBtn").addEventListener("click", () => {
-    alert("Profile editing will be available once the Profile Update backend endpoint is built.");
+  document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const statusEl = document.getElementById("profileStatus");
+    const saveBtn = document.getElementById("saveProfileBtn");
+
+    const payload = {
+      full_name: document.getElementById("profileNameInput").value.trim()
+    };
+
+    const newPassword = document.getElementById("newPasswordInput").value.trim();
+    if (newPassword) {
+      payload.new_password = newPassword;
+      payload.current_password = document.getElementById("currentPasswordInput").value;
+    }
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+    statusEl.textContent = "";
+
+    try {
+      const result = await AuthAPI.updateProfile(payload);
+      statusEl.textContent = "Profile updated successfully.";
+      statusEl.className = "auth-status success";
+      document.getElementById("profileName").textContent = result.user.full_name;
+      document.getElementById("profileInitial").textContent = result.user.full_name.charAt(0).toUpperCase();
+      document.getElementById("currentPasswordInput").value = "";
+      document.getElementById("newPasswordInput").value = "";
+    } catch (err) {
+      statusEl.textContent = err.message;
+      statusEl.className = "auth-status error";
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Changes";
+    }
   });
 </script>
 </body>
