@@ -58,3 +58,8 @@ const NotificationAPI = {
 const AnalyticsAPI = {
   get: () => apiRequest("/analytics", "GET")
 };
+const AdminAPI = {
+  stats: () => apiRequest("/admin/stats", "GET"),
+  farmers: () => apiRequest("/admin/farmers", "GET"),
+  datasets: () => apiRequest("/admin/datasets", "GET")
+};

@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -25,41 +24,37 @@
       </div>
     </div>
 
-    <div class="stats-grid fade-in-up">
-      <div class="card stat-card">
-        <div class="stat-label">Total Farmers</div>
-        <div class="stat-empty">Not connected yet</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-label">Datasets Loaded</div>
-        <div class="stat-empty">0 of 5</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-label">Active ML Models</div>
-        <div class="stat-empty">None trained yet</div>
-      </div>
-      <div class="card stat-card">
-        <div class="stat-label">System Status</div>
-        <div class="stat-empty">Healthy</div>
-      </div>
+    <div class="stats-grid fade-in-up" id="adminStats"></div>
+
+    <div class="section-heading fade-in-up">
+      <h2>Registered Farmers</h2>
+      <span id="farmerCount"></span>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-icon">🛠️</span>
-      <h2>Admin controls are being built</h2>
-      <p>Farmer management, dataset management, and model monitoring will appear here once the Administration backend module is built.</p>
+    <div class="card fade-in-up" style="padding:0; overflow-x:auto; margin-bottom:32px;">
+      <table class="admin-table" id="farmersTable"></table>
     </div>
+
+    <div class="section-heading fade-in-up">
+      <h2>Datasets</h2>
+      <span>ml/datasets/raw</span>
+    </div>
+
+    <div class="card fade-in-up" id="datasetsCard" style="padding:24px;"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
+<script src="../js/admin.js"></script>
 <script>
   initAppShell("admin").then(user => {
     if (user.role !== "admin") {
       alert("This page is restricted to admin accounts.");
       window.location.href = "dashboard.html";
+      return;
     }
+    loadAdminDashboard();
   });
 </script>
 </body>
