@@ -35,6 +35,8 @@ def create_app():
 
     from app.routes.notification_routes import notification_bp
     app.register_blueprint(notification_bp)
+    from app.routes.analytics_routes import analytics_bp
+    app.register_blueprint(analytics_bp)
 
     @app.route("/")
     def home():

@@ -13,28 +13,24 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
   <main class="main-content">
-    <div class="main-topbar fade-in-up">
+    <div class="page-header-row fade-in-up">
       <div>
         <div class="eyebrow">Account</div>
         <h1>Notifications</h1>
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-icon">🔔</span>
-      <h2>You're all caught up</h2>
-      <p>Weather alerts, disease warnings, and market updates will show up here once connected to their respective modules.</p>
-    </div>
+    <div class="card fade-in-up" id="notifList" style="padding:0; overflow:hidden;"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("notifications");</script>
+<script src="../js/notifications.js"></script>
+<script>initAppShell("notifications").then(loadNotifications);</script>
 </body>
 </html>

@@ -25,17 +25,30 @@
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-icon">📊</span>
-      <h2>Analytics will appear as you use AgroVision AI</h2>
-      <p>Crop trends, recommendation history, and weather patterns will be charted here once you have farm activity to analyze.</p>
+    <div class="stats-grid fade-in-up" id="analyticsStats"></div>
+
+    <div class="analytics-grid fade-in-up">
+      <div class="card chart-card">
+        <h3>Crop Distribution</h3>
+        <canvas id="cropChart"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Disease Severity Breakdown</h3>
+        <canvas id="severityChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card fade-in-up" style="padding:24px;">
+      <h3 style="margin-bottom:16px;">Recent Activity</h3>
+      <div class="activity-list" id="recentActivity"></div>
     </div>
   </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("analytics");</script>
-</card>
+<script src="../js/analytics.js"></script>
+<script>initAppShell("analytics").then(loadAnalytics);</script>
 </body>
 </html>

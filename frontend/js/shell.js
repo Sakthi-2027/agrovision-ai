@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { section: "AI Modules", key: "assistant", label: "AI Assistant", icon: "✦", href: "assistant.html" },
 
   { section: "Account", key: "profile", label: "Profile", icon: "◐", href: "profile.html" },
-  { section: "Account", key: "notifications", label: "Notifications", icon: "◔", href: "notifications.html" },
+  { section: "Account", key: "notifications", label: "Notifications", icon: "◔", href: "notifications.html", badge: true },
   { section: "Account", key: "admin", label: "Admin Dashboard", icon: "⚙", href: "admin-dashboard.html" },
 ];
 
@@ -33,8 +33,9 @@ function renderSidebar(activeKey) {
       lastSection = item.section;
     }
     const activeClass = item.key === activeKey ? "active" : "";
+    const badgeHtml = item.badge ? `<span class="sidebar-badge" id="notifBadge" style="display:none;"></span>` : "";
     html += `<li class="sidebar-link ${activeClass}" onclick="window.location.href='${item.href}'">
-      <span class="icon">${item.icon}</span> ${item.label}
+      <span class="icon">${item.icon}</span> ${item.label} ${badgeHtml}
     </li>`;
   });
 
@@ -58,6 +59,16 @@ function renderSidebar(activeKey) {
 
 async function initAppShell(activeKey) {
   renderSidebar(activeKey);
+
+  // Fetch unread count for sidebar badge (fire and forget, don't block the page)
+  NotificationAPI.list().then(data => {
+    const badge = document.getElementById("notifBadge");
+    if (badge) {
+      badge.textContent = data.unread_count > 0 ? data.unread_count : "";
+      badge.style.display = data.unread_count > 0 ? "inline-block" : "none";
+    }
+  }).catch(() => {});
+
   try {
     const user = await AuthAPI.me();
     document.getElementById("userName").textContent = user.full_name;
@@ -66,6 +77,6 @@ async function initAppShell(activeKey) {
     return user;
   } catch (err) {
     window.location.href = "login.html";
-    throw err; // stop page script from continuing
+    throw err;
   }
 }

@@ -50,3 +50,11 @@ const HistoryAPI = {
   diseaseCreate: (farmId, data) => apiRequest(`/farms/${farmId}/disease-history`, "POST", data),
   diseaseDelete: (farmId, id) => apiRequest(`/farms/${farmId}/disease-history/${id}`, "DELETE")
 };
+const NotificationAPI = {
+  list: () => apiRequest("/notifications", "GET"),
+  markRead: (id) => apiRequest(`/notifications/${id}/read`, "PATCH"),
+  remove: (id) => apiRequest(`/notifications/${id}`, "DELETE")
+};
+const AnalyticsAPI = {
+  get: () => apiRequest("/analytics", "GET")
+};
