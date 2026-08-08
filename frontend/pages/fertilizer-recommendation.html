@@ -21,21 +21,60 @@
     <div class="main-topbar fade-in-up">
       <div>
         <div class="eyebrow">AI Module</div>
-        <h1>Crop Recommendation</h1>
+        <h1>Fertilizer Recommendation</h1>
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
+    <div class="card fade-in-up" style="padding:28px; max-width:640px; margin-bottom:24px;">
+      <p style="color:var(--color-text-dim); font-size:0.9rem; margin-bottom:20px;">
+        Enter your soil and crop conditions to get an AI-recommended fertilizer.
+      </p>
+
+      <form id="fertilizerForm" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field">
+          <label class="field-label">Soil Type</label>
+          <select class="field-input" id="soilType" required></select>
+        </div>
+        <div class="field">
+          <label class="field-label">Crop Type</label>
+          <select class="field-input" id="cropType" required></select>
+        </div>
+        <div class="field">
+          <label class="field-label">Temperature (°C)</label>
+          <input class="field-input" type="number" step="any" id="fTemperature" placeholder="e.g. 26" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Humidity (%)</label>
+          <input class="field-input" type="number" step="any" id="fHumidity" placeholder="e.g. 52" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Moisture</label>
+          <input class="field-input" type="number" step="any" id="fMoisture" placeholder="e.g. 38" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Nitrogen (N)</label>
+          <input class="field-input" type="number" step="any" id="fNitrogen" placeholder="e.g. 37" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Potassium (K)</label>
+          <input class="field-input" type="number" step="any" id="fPotassium" placeholder="e.g. 0" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Phosphorous (P)</label>
+          <input class="field-input" type="number" step="any" id="fPhosphorous" placeholder="e.g. 0" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="grid-column: span 2;" id="fertilizerSubmitBtn">Get Recommendation</button>
+      </form>
     </div>
+
+    <div id="fertilizerResult"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("crop-recommendation");</script>
+<script src="../js/fertilizer.js"></script>
+<script>initAppShell("fertilizer-recommendation").then(loadFertilizerOptions);</script>
 </body>
 </html>

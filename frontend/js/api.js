@@ -85,3 +85,7 @@ const AdminAPI = {
 const CropAPI = {
   recommend: (data) => apiRequest("/crop-recommendation", "POST", data)
 };
+const FertilizerAPI = {
+  options: () => apiRequest("/fertilizer-recommendation/options", "GET"),
+  recommend: (data) => apiRequest("/fertilizer-recommendation", "POST", data)
+};
