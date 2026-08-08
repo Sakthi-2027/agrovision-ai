@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+env/
+
+# Flask
+instance/
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+
+# ML - datasets are large and shouldn't be committed; trained models are the actual deliverable
+ml/datasets/raw/*
+!ml/datasets/raw/.gitkeep
+
+# OS / Editor
+.DS_Store
+.vscode/
+*.log

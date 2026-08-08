@@ -40,6 +40,8 @@ def create_app():
     app.register_blueprint(analytics_bp)
     from app.routes.admin_routes import admin_bp
     app.register_blueprint(admin_bp)
+    from app.routes.crop_routes import crop_bp
+    app.register_blueprint(crop_bp)
 
     @app.route("/")
     def home():

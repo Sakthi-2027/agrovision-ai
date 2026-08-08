@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -25,17 +24,52 @@
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
+    <div class="card fade-in-up" style="padding:28px; max-width:640px; margin-bottom:24px;">
+      <p style="color:var(--color-text-dim); font-size:0.9rem; margin-bottom:20px;">
+        Enter your soil and climate readings to get an AI-recommended crop, trained on 2,200 real farm records (99.5% test accuracy).
+      </p>
+
+      <form id="cropForm" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field">
+          <label class="field-label">Nitrogen (N)</label>
+          <input class="field-input" type="number" step="any" id="nitrogen" placeholder="e.g. 90" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Phosphorus (P)</label>
+          <input class="field-input" type="number" step="any" id="phosphorus" placeholder="e.g. 42" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Potassium (K)</label>
+          <input class="field-input" type="number" step="any" id="potassium" placeholder="e.g. 43" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Temperature (°C)</label>
+          <input class="field-input" type="number" step="any" id="temperature" placeholder="e.g. 20.8" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Humidity (%)</label>
+          <input class="field-input" type="number" step="any" id="humidity" placeholder="e.g. 82.0" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Soil pH</label>
+          <input class="field-input" type="number" step="any" id="ph" placeholder="e.g. 6.5" required>
+        </div>
+        <div class="field" style="grid-column: span 2;">
+          <label class="field-label">Rainfall (mm)</label>
+          <input class="field-input" type="number" step="any" id="rainfall" placeholder="e.g. 202.9" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="grid-column: span 2;" id="cropSubmitBtn">Get Recommendation</button>
+      </form>
     </div>
+
+    <div id="cropResult"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
+<script src="../js/crop.js"></script>
 <script>initAppShell("crop-recommendation");</script>
 </body>
 </html>

@@ -82,3 +82,6 @@ const AdminAPI = {
   deactivateFarmer: (id) => apiRequest(`/admin/farmers/${id}/deactivate`, "PATCH"),
   promoteFarmer: (id) => apiRequest(`/admin/farmers/${id}/promote`, "PATCH")
 };
+const CropAPI = {
+  recommend: (data) => apiRequest("/crop-recommendation", "POST", data)
+};
