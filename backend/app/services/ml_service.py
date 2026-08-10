@@ -78,3 +78,45 @@ def get_fertilizer_options():
         "soil_types": list(bundle["soil_encoder"].classes_),
         "crop_types": list(bundle["crop_encoder"].classes_)
     }
+YIELD_MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml", "models", "yield_prediction_model.pkl")
+YIELD_MODEL_PATH = os.path.abspath(YIELD_MODEL_PATH)
+
+_yield_bundle = None
+
+
+def get_yield_bundle():
+    global _yield_bundle
+    if _yield_bundle is None:
+        _yield_bundle = joblib.load(YIELD_MODEL_PATH)
+    return _yield_bundle
+
+
+def predict_yield(area, item, year, rainfall, pesticides, avg_temp):
+    bundle = get_yield_bundle()
+    model = bundle["model"]
+    area_encoder = bundle["area_encoder"]
+    item_encoder = bundle["item_encoder"]
+
+    try:
+        area_encoded = area_encoder.transform([area])[0]
+    except ValueError:
+        return {"error": f"Unknown area: '{area}'. Known areas: {list(area_encoder.classes_)}"}
+
+    try:
+        item_encoded = item_encoder.transform([item])[0]
+    except ValueError:
+        return {"error": f"Unknown crop: '{item}'. Known crops: {list(item_encoder.classes_)}"}
+
+    features = [[area_encoded, item_encoded, year, rainfall, pesticides, avg_temp]]
+    prediction = model.predict(features)[0]
+
+    return {"predicted_yield_hg_per_ha": round(float(prediction), 2)}
+
+
+def get_yield_options():
+    bundle = get_yield_bundle()
+    return {
+        "areas": sorted(list(bundle["area_encoder"].classes_)),
+        "crops": sorted(list(bundle["item_encoder"].classes_))
+    }
+

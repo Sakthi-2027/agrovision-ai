@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-
 <div class="app-layout">
   <aside class="sidebar" id="sidebarMount"></aside>
 
@@ -21,21 +20,52 @@
     <div class="main-topbar fade-in-up">
       <div>
         <div class="eyebrow">AI Module</div>
-        <h1>Crop Recommendation</h1>
+        <h1>Yield Prediction</h1>
       </div>
     </div>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
+    <div class="card fade-in-up" style="padding:28px; max-width:640px; margin-bottom:24px;">
+      <p style="color:var(--color-text-dim); font-size:0.9rem; margin-bottom:20px;">
+        Predict expected crop yield based on country, crop type, and climate conditions — trained on 28,242 real agricultural records (R² = 0.986).
+      </p>
+
+      <form id="yieldForm" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field">
+          <label class="field-label">Country / Area</label>
+          <select class="field-input" id="yieldArea" required></select>
+        </div>
+        <div class="field">
+          <label class="field-label">Crop</label>
+          <select class="field-input" id="yieldCrop" required></select>
+        </div>
+        <div class="field">
+          <label class="field-label">Year</label>
+          <input class="field-input" type="number" id="yieldYear" placeholder="e.g. 2024" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Avg. Temperature (°C)</label>
+          <input class="field-input" type="number" step="any" id="yieldTemp" placeholder="e.g. 25" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Avg. Rainfall (mm/year)</label>
+          <input class="field-input" type="number" step="any" id="yieldRainfall" placeholder="e.g. 1083" required>
+        </div>
+        <div class="field">
+          <label class="field-label">Pesticides Used (tonnes)</label>
+          <input class="field-input" type="number" step="any" id="yieldPesticides" placeholder="e.g. 22500" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="grid-column: span 2;" id="yieldSubmitBtn">Predict Yield</button>
+      </form>
     </div>
+
+    <div id="yieldResult"></div>
   </main>
 </div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>
-<script>initAppShell("crop-recommendation");</script>
+<script src="../js/yield.js"></script>
+<script>initAppShell("yield-prediction").then(loadYieldOptions);</script>
 </body>
 </html>

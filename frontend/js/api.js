@@ -89,3 +89,7 @@ const FertilizerAPI = {
   options: () => apiRequest("/fertilizer-recommendation/options", "GET"),
   recommend: (data) => apiRequest("/fertilizer-recommendation", "POST", data)
 };
+const YieldAPI = {
+  options: () => apiRequest("/yield-prediction/options", "GET"),
+  predict: (data) => apiRequest("/yield-prediction", "POST", data)
+};
