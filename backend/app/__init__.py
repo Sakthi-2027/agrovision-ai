@@ -46,6 +46,8 @@ def create_app():
     app.register_blueprint(fertilizer_bp)
     from app.routes.yield_routes import yield_bp
     app.register_blueprint(yield_bp)
+    from app.routes.pest_routes import pest_bp
+    app.register_blueprint(pest_bp)
 
     @app.route("/")
     def home():

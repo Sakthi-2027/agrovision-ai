@@ -1,7 +1,7 @@
 import os
 import joblib
 
-# Load the model once when this module is first imported — not on every request
+
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml", "models", "crop_recommendation_model.pkl")
 MODEL_PATH = os.path.abspath(MODEL_PATH)
 
@@ -120,3 +120,44 @@ def get_yield_options():
         "crops": sorted(list(bundle["item_encoder"].classes_))
     }
 
+import json
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.preprocessing import image as keras_image
+import numpy as np
+
+PEST_MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml", "models", "pest_prediction_model.keras")
+PEST_MODEL_PATH = os.path.abspath(PEST_MODEL_PATH)
+
+PEST_LABELS_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml", "models", "pest_class_labels.json")
+PEST_LABELS_PATH = os.path.abspath(PEST_LABELS_PATH)
+
+_pest_model = None
+_pest_labels = None
+
+
+def get_pest_model():
+    global _pest_model, _pest_labels
+    if _pest_model is None:
+        _pest_model = load_model(PEST_MODEL_PATH)
+        with open(PEST_LABELS_PATH) as f:
+            _pest_labels = json.load(f)
+    return _pest_model, _pest_labels
+
+
+def predict_pest(image_path):
+    model, labels = get_pest_model()
+
+    img = keras_image.load_img(image_path, target_size=(128, 128))
+    img_array = keras_image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = preprocess_input(img_array)
+
+    predictions = model.predict(img_array)[0]
+    predicted_index = int(np.argmax(predictions))
+    confidence = float(predictions[predicted_index]) * 100
+
+    return {
+        "predicted_pest": labels[str(predicted_index)],
+        "confidence": round(confidence, 2)
+    }

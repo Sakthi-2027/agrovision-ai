@@ -1,41 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crop Recommendation — AgroVision AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/variables.css">
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/animations.css">
-<link rel="stylesheet" href="../css/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pest Prediction — AgroVision AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
+
 <body>
 
 <div class="app-layout">
-  <aside class="sidebar" id="sidebarMount"></aside>
 
-  <main class="main-content">
-    <div class="main-topbar fade-in-up">
-      <div>
-        <div class="eyebrow">AI Module</div>
-        <h1>Crop Recommendation</h1>
-      </div>
-    </div>
+    <aside class="sidebar" id="sidebarMount"></aside>
 
-    <div class="card empty-state fade-in-up">
-      <span class="empty-state-badge">Model training pending</span>
-      <span class="empty-state-icon">🌾</span>
-      <h2>This module needs your dataset</h2>
-      <p>Once a crop dataset is provided, this page will let you enter soil N-P-K values, pH, rainfall, and temperature to get an AI-recommended crop for your field.</p>
-    </div>
-  </main>
+    <main class="main-content">
+
+        <div class="main-topbar fade-in-up">
+            <div>
+                <div class="eyebrow">AI Module</div>
+                <h1>Pest Prediction</h1>
+            </div>
+        </div>
+
+
+        <!-- PEST UPLOAD CARD -->
+
+        <div
+            class="card fade-in-up"
+            style="padding:28px; max-width:560px; margin-bottom:24px;"
+        >
+
+            <p
+                style="
+                    color:var(--color-text-dim);
+                    font-size:0.9rem;
+                    margin-bottom:20px;
+                "
+            >
+                Upload a photo of a pest to identify it — trained on
+                5,494 images across 12 pest types (85% accuracy).
+            </p>
+
+
+            <!-- Upload zone -->
+
+            <div
+                id="uploadZone"
+                style="
+                    border:2px dashed var(--color-border);
+                    border-radius:var(--radius-md);
+                    padding:40px;
+                    text-align:center;
+                    cursor:pointer;
+                    transition:border-color var(--transition-base);
+                "
+            >
+
+                <input
+                    type="file"
+                    id="pestImageInput"
+                    accept="image/png,image/jpeg"
+                    style="display:none;"
+                >
+
+
+                <div id="uploadPrompt">
+
+                    <span
+                        style="
+                            font-size:2rem;
+                            display:block;
+                            margin-bottom:12px;
+                        "
+                    >
+                        🐛
+                    </span>
+
+                    <p
+                        style="
+                            color:var(--color-text-dim);
+                            font-size:0.9rem;
+                        "
+                    >
+                        Click to select a pest photo
+                    </p>
+
+                    <p
+                        style="
+                            color:var(--color-text-faint);
+                            font-size:0.78rem;
+                            margin-top:4px;
+                        "
+                    >
+                        PNG or JPG
+                    </p>
+
+                </div>
+
+
+                <img
+                    id="imagePreview"
+                    alt="Selected pest image"
+                    style="
+                        display:none;
+                        max-width:100%;
+                        max-height:240px;
+                        border-radius:var(--radius-sm);
+                    "
+                >
+
+            </div>
+
+
+            <!-- Submit button -->
+
+            <button
+                class="btn btn-primary"
+                id="pestSubmitBtn"
+                style="margin-top:20px;"
+                disabled
+            >
+                Identify Pest
+            </button>
+
+        </div>
+
+
+        <!-- Result -->
+
+        <div id="pestResult"></div>
+
+    </main>
+
 </div>
 
+
+<!-- IMPORTANT: API MUST LOAD FIRST -->
+
 <script src="../js/api.js"></script>
+
+<!-- Common application shell -->
+
 <script src="../js/shell.js"></script>
-<script>initAppShell("crop-recommendation");</script>
+
+<script>
+    initAppShell("pest-prediction");
+</script>
+
+<!-- Pest-specific JavaScript -->
+
+<script src="../js/pest.js"></script>
+
 </body>
 </html>

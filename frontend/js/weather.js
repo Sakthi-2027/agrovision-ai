@@ -51,5 +51,5 @@ document.getElementById("weatherForm").addEventListener("submit", (e) => {
   if (location) fetchWeather(location);
 });
 
-// Load a default forecast on page open
+
 window.addEventListener("DOMContentLoaded", () => fetchWeather("Tindivanam"));
