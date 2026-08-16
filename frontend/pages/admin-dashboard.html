@@ -43,6 +43,18 @@
     <div class="card fade-in-up" id="datasetsCard" style="padding:24px;"></div>
   </main>
 </div>
+<div class="section-heading fade-in-up" style="margin-top:32px;">
+  <h2>Market Prices</h2>
+  <span>data.gov.in sync</span>
+</div>
+
+<div class="card fade-in-up" style="padding:24px;">
+  <p style="color:var(--color-text-dim); font-size:0.9rem; margin-bottom:16px;">
+    Manually trigger a fresh sync of market prices from data.gov.in into the local database.
+    The market prices page serves data from this local cache — sync whenever you want fresh data.
+  </p>
+  <button class="btn btn-primary btn-icon-inline" id="syncMarketBtn" onclick="syncMarketPrices()">Sync Market Prices</button>
+</div>
 
 <script src="../js/api.js"></script>
 <script src="../js/shell.js"></script>

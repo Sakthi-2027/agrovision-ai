@@ -24,7 +24,13 @@
       </div>
     </div>
 
-    <div class="card fade-in-up" style="padding:24px; margin-bottom:20px;">
+    <div class="card fade-in-up" style="padding:20px; margin-bottom:12px;">
+      <div class="card fade-in-up" style="padding:10px 16px; margin-bottom:12px; border-color:var(--color-amber); background:rgba(224,169,76,0.08);">
+        <p style="font-family:var(--font-mono); font-size:0.75rem; color:var(--color-amber);">
+          ⚠️ DEMO DATA — Sample prices for demonstration. Live sync requires a valid API key.
+        </p>
+      </div>
+
       <form id="marketForm" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap;">
         <div class="field" style="flex:1; min-width:160px; margin-bottom:0;">
           <label class="field-label">State</label>
@@ -38,12 +44,12 @@
       </form>
     </div>
 
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <span style="font-size:0.85rem; color:var(--color-text-faint);" id="resultCount"></span>
       <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--color-text-faint);" id="lastSynced"></span>
     </div>
 
-    <div class="card fade-in-up" style="padding:0; overflow-x:auto;" id="marketResults"></div>
+    <div style="overflow-x:auto; width:100%;" id="marketResults"></div>
   </main>
 </div>
 

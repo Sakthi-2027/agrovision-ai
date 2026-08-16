@@ -261,7 +261,10 @@ const AdminAPI = {
         apiRequest(
             `/admin/farmers/${id}/promote`,
             "PATCH"
-        )
+        ),
+        syncMarketPrices: () => apiRequest("/admin/sync-market-prices", "POST")
+
+
 };
 
 

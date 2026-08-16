@@ -34,7 +34,7 @@ async function searchMarketPrices() {
     countEl.textContent = `${data.count} result${data.count !== 1 ? "s" : ""}`;
 
     resultsEl.innerHTML = `
-      <table class="admin-table">
+      <table class="admin-table" style="width:100%;">
         <thead>
           <tr>
             <th>Commodity</th>

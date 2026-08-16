@@ -7,11 +7,7 @@ MARKET_API_URL = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a
 
 
 def sync_market_prices(limit=100):
-    """
-    Pulls fresh data from data.gov.in and replaces our local cache.
-    Returns (success: bool, message: str, records_synced: int).
-    Never raises — if the external API fails, old data stays untouched.
-    """
+    
     params = {
         "api-key": current_app.config["DATA_GOV_API_KEY"],
         "format": "json",
@@ -19,7 +15,7 @@ def sync_market_prices(limit=100):
     }
 
     try:
-        response = requests.get(MARKET_API_URL, params=params, timeout=10)
+        response = requests.get(MARKET_API_URL, params=params, timeout=30)
         response.raise_for_status()
         data = response.json()
         records = data.get("records", [])
@@ -29,7 +25,6 @@ def sync_market_prices(limit=100):
     if not records:
         return False, "Sync completed but the API returned no records.", 0
 
-    # Clear old data and insert fresh — simple full-replace strategy for this scale
     MarketPrice.query.delete()
 
     for r in records:
@@ -58,11 +53,7 @@ def safe_float(value):
 
 
 def get_market_prices(state=None, commodity=None, limit=50):
-    """Reads from OUR database — fast and always available, independent of external API uptime."""
     query = MarketPrice.query
-
-    if state:
-        query = query.filter(MarketPrice.state.ilike(f"%{state}%"))
     if commodity:
         query = query.filter(MarketPrice.commodity.ilike(f"%{commodity}%"))
 

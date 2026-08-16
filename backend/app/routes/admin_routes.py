@@ -90,3 +90,13 @@ def promote_farmer(farmer_id):
     db.session.commit()
 
     return jsonify({"message": f"{farmer.full_name} has been promoted to admin"}), 200
+@admin_bp.route("/sync-market-prices", methods=["POST"])
+@admin_required
+def sync_market_prices_route():
+    from app.services.market_service import sync_market_prices
+    success, message, count = sync_market_prices()
+    return jsonify({
+        "success": success,
+        "message": message,
+        "records_synced": count
+    }), 200 if success else 503

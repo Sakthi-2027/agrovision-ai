@@ -109,3 +109,18 @@ function renderDatasets(datasets) {
     ${datasets.map(d => `<span class="dataset-pill">📄 ${d}</span>`).join("")}
   </div>`;
 }
+async function syncMarketPrices() {
+  const btn = document.getElementById("syncMarketBtn");
+  btn.disabled = true;
+  btn.textContent = "Syncing...";
+
+  try {
+    const result = await AdminAPI.syncMarketPrices();
+    alert(`${result.success ? "✅" : "⚠️"} ${result.message}`);
+  } catch (err) {
+    alert("Sync failed: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Sync Market Prices";
+  }
+}
