@@ -48,6 +48,8 @@ def create_app():
     app.register_blueprint(yield_bp)
     from app.routes.pest_routes import pest_bp
     app.register_blueprint(pest_bp)
+    from app.routes.irrigation_routes import irrigation_bp
+    app.register_blueprint(irrigation_bp)
 
     @app.route("/")
     def home():
