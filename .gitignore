@@ -13,10 +13,13 @@ instance/
 # Environment variables
 .env
 
-# ML - datasets are large and shouldn't be committed; trained models are the actual deliverable
+
 ml/datasets/raw/*
 !ml/datasets/raw/.gitkeep
-
+ml/models/*.pkl
+ml/models/*.keras
+ml/models/*.h5
+ml/models/*.json
 # OS / Editor
 .DS_Store
 .vscode/
