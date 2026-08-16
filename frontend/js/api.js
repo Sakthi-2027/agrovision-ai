@@ -395,3 +395,7 @@ const PestAPI = {
         return data;
     }
 };
+const IrrigationAPI = {
+  options: () => apiRequest("/irrigation/options", "GET"),
+  recommend: (data) => apiRequest("/irrigation", "POST", data)
+};
